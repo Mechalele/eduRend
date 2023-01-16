@@ -5,6 +5,7 @@ using namespace linalg;
 void Camera::MoveTo(const vec3f& position) noexcept
 {
 	m_position = position;
+	//yes
 }
 
 void Camera::Move(const vec3f& direction) noexcept
