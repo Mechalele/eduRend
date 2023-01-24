@@ -8,7 +8,7 @@
 #include "Model.h"
 
 /**
- * @brief Model reprsenting a Quad.
+ * @brief Model representing a Quad.
 */
 class QuadModel : public Model
 {
