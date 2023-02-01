@@ -51,6 +51,8 @@ void OurTestScene::Init()
 	// Create objects
 	m_quad = new QuadModel(m_dxdevice, m_dxdevice_context);
 	m_cube = new Cube(m_dxdevice, m_dxdevice_context);
+	m_cube2 = new Cube(m_dxdevice, m_dxdevice_context);
+	m_cube3 = new Cube(m_dxdevice, m_dxdevice_context);
 	m_sponza = new OBJModel("assets/crytek-sponza/sponza.obj", m_dxdevice, m_dxdevice_context);
 }
 
@@ -72,9 +74,16 @@ void OurTestScene::Update(
 	if (input_handler.IsKeyPressed(Keys::Left) || input_handler.IsKeyPressed(Keys::A))
 		m_camera->Move({ -m_camera_velocity * dt, 0.0f, 0.0f });
 
+	float sensitivity = 0.3f * dt;
+	long mousedx = input_handler.GetMouseDeltaX();
+	long mousedy = input_handler.GetMouseDeltaY();
+	
+	m_camera->m_pitch -= mousedy * sensitivity;
+	m_camera->m_yaw -= mousedx * sensitivity;
+
 	// Now set/update object transformations
 	// This can be done using any sequence of transformation matrices,
-	// but the T*R*S order is most common; i.e. scale, then rotate, and then translate.
+	// but the T*R*S order is most common; i.e. scale, then rotate, and tm_hen translate.
 	// If no transformation is desired, an identity matrix can be obtained 
 	// via e.g. Mquad = linalg::mat4f_identity; 
 
@@ -83,9 +92,24 @@ void OurTestScene::Update(
 		mat4f::rotation(-m_angle, 0.0f, 1.0f, 0.0f) *	// Rotate continuously around the y-axis
 		mat4f::scaling(1.5, 1.5, 1.5);				// Scale uniformly to 150%
 
-	m_cube_transform = mat4f::translation(0, 0, 0) *			// No translation
+	// Cube model-to-world transformation
+	m_cube_transform = mat4f::translation(0, -10, 0) *
 		mat4f::rotation(-m_angle, 0.0f, 1.0f, 0.0f) *	// Rotate continuously around the y-axis
 		mat4f::scaling(1.5, 1.5, 1.5);				// Scale uniformly to 150%
+
+	m_cube_transform = linalg::mat4f_identity;
+
+	m_cube2_transform = mat4f::translation(0, 0, 5) *
+		mat4f::rotation(-m_angle, 0.0f, 1.0f, 0.0f) *	// Rotate continuously around the y-axis
+		mat4f::scaling(1.5, 1.5, 1.5);				// Scale uniformly to 150%
+
+	m_cube2_transform = m_cube_transform * m_cube2_transform; 
+
+	m_cube3_transform = mat4f::translation(0, 0, -5) *
+		mat4f::rotation(-m_angle, 0.0f, 1.0f, 0.0f) *	// Rotate continuously around the y-axis
+		mat4f::scaling(1.5, 1.5, 1.5);				// Scale uniformly to 150%
+
+	m_cube3_transform = m_cube2_transform * m_cube3_transform;
 
 	// Sponza model-to-world transformation
 	m_sponza_transform = mat4f::translation(0, -5, 0) *		 // Move down 5 units
@@ -123,6 +147,12 @@ void OurTestScene::Render()
 
 	UpdateTransformationBuffer(m_cube_transform, m_view_matrix, m_projection_matrix);
 	m_cube->Render();
+
+	UpdateTransformationBuffer(m_cube2_transform, m_view_matrix, m_projection_matrix);
+	m_cube2->Render();
+	
+	UpdateTransformationBuffer(m_cube3_transform, m_view_matrix, m_projection_matrix);
+	m_cube3->Render();
 
 	// Load matrices + Sponza's transformation to the device and render it
 	/*UpdateTransformationBuffer(m_sponza_transform, m_view_matrix, m_projection_matrix);

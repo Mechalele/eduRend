@@ -16,6 +16,11 @@
 class Camera
 {
 public:
+
+	float m_yaw = 0.0f;
+	float m_pitch = 0.0f;
+
+
 	/**
 	 * @brief Creates a camera.
 	 * @param[in] vertical_fov Vertical field of view.

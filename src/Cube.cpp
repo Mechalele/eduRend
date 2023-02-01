@@ -28,6 +28,7 @@ Cube::Cube(ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context) : Mode
 	vertices.push_back(v2);
 	vertices.push_back(v3);
 
+	// Populate the index array with two triangles
 	// Triangle #1
 	indices.push_back(0);
 	indices.push_back(1);
@@ -84,7 +85,6 @@ Cube::Cube(ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context) : Mode
 	vertices.push_back(v10);
 	vertices.push_back(v11);
 	
-	// Populate the index array with two triangles
 	// Triangle #1
 	indices.push_back(8);
 	indices.push_back(9);
@@ -122,7 +122,61 @@ Cube::Cube(ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context) : Mode
 	indices.push_back(14);
 	indices.push_back(15);
 
-	
+	//botten 
+	v16.Position = { 0.5f, -0.5f, 0.0f };
+	v16.Normal = { 0, 1, 0 };
+	v16.TexCoord = { 0, 0 };
+	v17.Position = { -0.5f, -0.5f, 0.0f };
+	v17.Normal = { 0, 1, 0 };
+	v17.TexCoord = { 0, 1 };
+	v18.Position = { -0.5f, -0.5f, -1.0f };
+	v18.Normal = { 0, 1, 0 };
+	v18.TexCoord = { 1, 1 };
+	v19.Position = { 0.5f, -0.5f, -1.0f };
+	v19.Normal = { 0, 1, 0 };
+	v19.TexCoord = { 1, 0 };
+
+	vertices.push_back(v16);
+	vertices.push_back(v17);
+	vertices.push_back(v18);
+	vertices.push_back(v19);
+
+	// Triangle #1
+	indices.push_back(16);
+	indices.push_back(17);
+	indices.push_back(19);
+	// Triangle #2
+	indices.push_back(17);
+	indices.push_back(18);
+	indices.push_back(19);
+
+	//ovansidan
+	v20.Position = { -0.5f, 0.5f, 0.0f };
+	v20.Normal = { 0, 1, 0 };
+	v20.TexCoord = { 0, 0 };
+	v21.Position = { 0.5f, 0.5f, 0.0f };
+	v21.Normal = { 0, 1, 0 };
+	v21.TexCoord = { 1, 0 };
+	v22.Position = { 0.5f, 0.5f, -1.0f };
+	v22.Normal = { 0, 1, 0 };
+	v22.TexCoord = { 1, 1 };
+	v23.Position = { -0.5f, 0.5f, -1.0f };
+	v23.Normal = { 0, 1, 0 };
+	v23.TexCoord = { 1, 0 };
+
+	vertices.push_back(v20);
+	vertices.push_back(v21);
+	vertices.push_back(v22);
+	vertices.push_back(v23);
+
+	// Triangle #1
+	indices.push_back(20);
+	indices.push_back(21);
+	indices.push_back(23);
+	// Triangle #2
+	indices.push_back(21);
+	indices.push_back(22);
+	indices.push_back(23);
 
 	// Vertex array descriptor
 	D3D11_BUFFER_DESC vertexbufferDesc{ 0 };

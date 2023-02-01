@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "inputhandler.h"
 
 using namespace linalg;
 
@@ -21,7 +22,10 @@ mat4f Camera::WorldToViewMatrix() const noexcept
 	//		inverse(T(p)*R) = inverse(R)*inverse(T(p)) = transpose(R)*T(-p)
 	// Since now there is no rotation, this matrix is simply T(-p)
 
-	return mat4f::translation(-m_position);
+	mat4f rotationmatrix = mat4f::rotation(0, m_yaw, m_pitch);
+	rotationmatrix.transpose();
+
+	return rotationmatrix * mat4f::translation(-m_position);
 }
 
 mat4f Camera::ProjectionMatrix() const noexcept
