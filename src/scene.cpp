@@ -97,7 +97,7 @@ void OurTestScene::Update(
 		mat4f::rotation(-m_angle, 0.0f, 1.0f, 0.0f) *	// Rotate continuously around the y-axis
 		mat4f::scaling(1.5, 1.5, 1.5);				// Scale uniformly to 150%
 
-	m_cube_transform = linalg::mat4f_identity;
+	/*m_cube_transform = linalg::mat4f_identity;*/ //hur ignoreras scaling??
 
 	m_cube2_transform = mat4f::translation(0, 0, 5) *
 		mat4f::rotation(-m_angle, 0.0f, 1.0f, 0.0f) *	// Rotate continuously around the y-axis
