@@ -43,6 +43,14 @@ public:
 	*/
 	void Move(const linalg::vec3f& direction) noexcept;
 
+	void moveBackward(const float& v, float& dt);
+
+	void moveLeft(const float& v, float& dt);
+
+	void moveRight(const float& v, float& dt);
+
+	void moveForward(const float& v, float& dt);
+
 	/**
 	 * @brief Changes the camera aspect ratio.
 	 * @param[in] aspect_ratio New aspect ratio, calculate with width / height

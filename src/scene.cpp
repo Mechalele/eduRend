@@ -65,14 +65,14 @@ void OurTestScene::Update(
 	const InputHandler& input_handler)
 {
 	// Basic camera control
-	if (input_handler.IsKeyPressed(Keys::Up) || input_handler.IsKeyPressed(Keys::W))
+	/*if (input_handler.IsKeyPressed(Keys::Up) || input_handler.IsKeyPressed(Keys::W))
 		m_camera->Move({ 0.0f, 0.0f, -m_camera_velocity * dt });
 	if (input_handler.IsKeyPressed(Keys::Down) || input_handler.IsKeyPressed(Keys::S))
 		m_camera->Move({ 0.0f, 0.0f, m_camera_velocity * dt });
 	if (input_handler.IsKeyPressed(Keys::Right) || input_handler.IsKeyPressed(Keys::D))
 		m_camera->Move({ m_camera_velocity * dt, 0.0f, 0.0f });
 	if (input_handler.IsKeyPressed(Keys::Left) || input_handler.IsKeyPressed(Keys::A))
-		m_camera->Move({ -m_camera_velocity * dt, 0.0f, 0.0f });
+		m_camera->Move({ -m_camera_velocity * dt, 0.0f, 0.0f });*/
 
 	float sensitivity = 0.3f * dt;
 	long mousedx = input_handler.GetMouseDeltaX();
@@ -80,6 +80,24 @@ void OurTestScene::Update(
 	
 	m_camera->m_pitch -= mousedy * sensitivity;
 	m_camera->m_yaw -= mousedx * sensitivity;
+
+	if (input_handler.IsKeyPressed(Keys::Up) || input_handler.IsKeyPressed(Keys::W))
+		m_camera->moveForward(m_camera_velocity, dt);
+	if (input_handler.IsKeyPressed(Keys::Down) || input_handler.IsKeyPressed(Keys::S))
+		m_camera->moveBackward(m_camera_velocity, dt);
+	if (input_handler.IsKeyPressed(Keys::Right) || input_handler.IsKeyPressed(Keys::D))
+		m_camera->moveRight(m_camera_velocity, dt);
+	if (input_handler.IsKeyPressed(Keys::Left) || input_handler.IsKeyPressed(Keys::A))
+		m_camera->moveLeft(m_camera_velocity, dt);
+
+	if (m_camera->m_pitch > PI / 2)
+	{
+		m_camera->m_pitch > PI / 2;
+	}
+	else if (m_camera->m_pitch < -PI / 2)
+	{
+		m_camera->m_pitch > -PI / 2;
+	}
 
 	// Now set/update object transformations
 	// This can be done using any sequence of transformation matrices,
@@ -93,11 +111,11 @@ void OurTestScene::Update(
 		mat4f::scaling(1.5, 1.5, 1.5);				// Scale uniformly to 150%
 
 	// Cube model-to-world transformation
-	m_cube_transform = mat4f::translation(0, -10, 0) *
+	m_cube_transform = mat4f::translation(10, -10, 0) *
 		mat4f::rotation(-m_angle, 0.0f, 1.0f, 0.0f) *	// Rotate continuously around the y-axis
 		mat4f::scaling(1.5, 1.5, 1.5);				// Scale uniformly to 150%
 
-	m_cube_transform = linalg::mat4f_identity;
+	/*m_cube_transform = linalg::mat4f_identity;*/ //hur gör man så att rotation inte följer med i hierarkin?
 
 	m_cube2_transform = mat4f::translation(0, 0, 5) *
 		mat4f::rotation(-m_angle, 0.0f, 1.0f, 0.0f) *	// Rotate continuously around the y-axis

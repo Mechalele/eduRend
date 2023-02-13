@@ -13,6 +13,46 @@ void Camera::Move(const vec3f& direction) noexcept
 	m_position += direction;
 }
 
+void Camera::moveForward(const float& v, float& dt)
+{
+	vec4f fwdView = { 0, 0, -1, 0 };
+	mat4f rotationmatrix = mat4f::rotation(0, m_yaw, m_pitch);
+	mat4f pos = mat4f::translation(m_position);
+	mat4f viewtoworld = pos * rotationmatrix;
+	vec4f fwdWorld = viewtoworld * fwdView;
+	m_position += fwdWorld.xyz() * v * dt;
+}
+
+void Camera::moveBackward(const float& v, float& dt)
+{
+	vec4f bwdView = { 0, 0, 1, 0 };
+	mat4f rotationmatrix = mat4f::rotation(0, m_yaw, m_pitch);
+	mat4f pos = mat4f::translation(m_position);
+	mat4f viewtoworld = pos * rotationmatrix;
+	vec4f bwdWorld = viewtoworld * bwdView;
+	m_position += bwdWorld.xyz() * v * dt;
+}
+
+void Camera::moveLeft(const float& v, float& dt)
+{
+	vec4f leftView = { -1, 0, 0, 0 };
+	mat4f rotationmatrix = mat4f::rotation(0, m_yaw, m_pitch);
+	mat4f pos = mat4f::translation(m_position);
+	mat4f viewtoworld = pos * rotationmatrix;
+	vec4f leftWorld = viewtoworld * leftView;
+	m_position += leftWorld.xyz() * v * dt;
+}
+
+void Camera::moveRight(const float& v, float& dt)
+{
+	vec4f rightView = { 1, 0, 0, 0 };
+	mat4f rotationmatrix = mat4f::rotation(0, m_yaw, m_pitch);
+	mat4f pos = mat4f::translation(m_position);
+	mat4f viewtoworld = pos * rotationmatrix;
+	vec4f rightWorld = viewtoworld * rightView;
+	m_position += rightWorld.xyz() * v * dt;
+}
+
 mat4f Camera::WorldToViewMatrix() const noexcept
 {
 	// Assuming a camera's position and rotation is defined by matrices T(p) and R,
