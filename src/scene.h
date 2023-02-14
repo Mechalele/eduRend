@@ -78,6 +78,7 @@ class OurTestScene : public Scene
 
 	// CBuffer for transformation matrices
 	ID3D11Buffer* m_transformation_buffer = nullptr;
+	ID3D11Buffer* m_lightcamera_buffer = nullptr;
 	// + other CBuffers
 
 	//
@@ -109,6 +110,10 @@ class OurTestScene : public Scene
 	void InitTransformationBuffer();
 
 	void UpdateTransformationBuffer(mat4f model_to_world_matrix, mat4f world_to_view_matrix, mat4f projection_matrix);
+
+	void InitLightCamerabuffer();
+
+	void UpdateLightCameraBuffer();
 
 public:
 	/**

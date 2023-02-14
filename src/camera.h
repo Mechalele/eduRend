@@ -42,6 +42,8 @@ public:
 	 * @param[in] direction Direction to move along
 	*/
 	void Move(const linalg::vec3f& direction) noexcept;
+	
+	void Position();
 
 	void moveBackward(const float& v, float& dt);
 

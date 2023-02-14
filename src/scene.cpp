@@ -31,6 +31,7 @@ OurTestScene::OurTestScene(
 	Scene(dxdevice, dxdevice_context, window_width, window_height)
 { 
 	InitTransformationBuffer();
+	InitLightCamerabuffer();
 	// + init other CBuffers
 }
 
@@ -115,8 +116,6 @@ void OurTestScene::Update(
 		mat4f::rotation(-m_angle, 0.0f, 1.0f, 0.0f) *	// Rotate continuously around the y-axis
 		mat4f::scaling(1.5, 1.5, 1.5);				// Scale uniformly to 150%
 
-	/*m_cube_transform = linalg::mat4f_identity;*/ //hur gör man så att rotation inte följer med i hierarkin?
-
 	m_cube2_transform = mat4f::translation(0, 0, 5) *
 		mat4f::rotation(-m_angle, 0.0f, 1.0f, 0.0f) *	// Rotate continuously around the y-axis
 		mat4f::scaling(1.5, 1.5, 1.5);				// Scale uniformly to 150%
@@ -154,27 +153,29 @@ void OurTestScene::Render()
 {
 	// Bind transformation_buffer to slot b0 of the VS
 	m_dxdevice_context->VSSetConstantBuffers(0, 1, &m_transformation_buffer);
+	m_dxdevice_context->PSSetConstantBuffers(0, 1, &m_lightcamera_buffer);
 
 	// Obtain the matrices needed for rendering from the camera
 	m_view_matrix = m_camera->WorldToViewMatrix();
 	m_projection_matrix = m_camera->ProjectionMatrix();
+	UpdateLightCameraBuffer();
 
 	// Load matrices + the Quad's transformation to the device and render it
 	/*UpdateTransformationBuffer(m_quad_transform, m_view_matrix, m_projection_matrix);
 	m_quad->Render();*/
 
-	UpdateTransformationBuffer(m_cube_transform, m_view_matrix, m_projection_matrix);
+	/*UpdateTransformationBuffer(m_cube_transform, m_view_matrix, m_projection_matrix);
 	m_cube->Render();
 
 	UpdateTransformationBuffer(m_cube2_transform, m_view_matrix, m_projection_matrix);
 	m_cube2->Render();
 	
 	UpdateTransformationBuffer(m_cube3_transform, m_view_matrix, m_projection_matrix);
-	m_cube3->Render();
+	m_cube3->Render();*/
 
 	// Load matrices + Sponza's transformation to the device and render it
-	/*UpdateTransformationBuffer(m_sponza_transform, m_view_matrix, m_projection_matrix);
-	m_sponza->Render();*/
+	UpdateTransformationBuffer(m_sponza_transform, m_view_matrix, m_projection_matrix);
+	m_sponza->Render();
 }
 
 void OurTestScene::Release()
@@ -223,4 +224,27 @@ void OurTestScene::UpdateTransformationBuffer(
 	matrixBuffer->WorldToViewMatrix = WorldToViewMatrix;
 	matrixBuffer->ProjectionMatrix = ProjectionMatrix;
 	m_dxdevice_context->Unmap(m_transformation_buffer, 0);
+}
+
+void OurTestScene::InitLightCamerabuffer()
+{
+	HRESULT hr;
+	D3D11_BUFFER_DESC matrixBufferDesc = { 0 };
+	matrixBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	matrixBufferDesc.ByteWidth = sizeof(LightCameraBuffer);
+	matrixBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	matrixBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	matrixBufferDesc.MiscFlags = 0;
+	matrixBufferDesc.StructureByteStride = 0;
+	ASSERT(hr = m_dxdevice->CreateBuffer(&matrixBufferDesc, nullptr, &m_lightcamera_buffer));
+}
+
+void OurTestScene::UpdateLightCameraBuffer()
+{
+	D3D11_MAPPED_SUBRESOURCE resource;
+	m_dxdevice_context->Map(m_lightcamera_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
+	LightCameraBuffer* Buffer = (LightCameraBuffer*)resource.pData;
+	Buffer->lightPos = vec4f(1, 0, 0, 0);
+	Buffer->cameraPos = m_camera->MoveTo();
+	m_dxdevice_context->Unmap(m_lightcamera_buffer, 0);
 }

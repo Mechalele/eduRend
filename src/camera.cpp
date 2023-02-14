@@ -13,6 +13,11 @@ void Camera::Move(const vec3f& direction) noexcept
 	m_position += direction;
 }
 
+void Camera::Position()
+{
+	vec3f m_currentPosition = m_position;
+}
+
 void Camera::moveForward(const float& v, float& dt)
 {
 	vec4f fwdView = { 0, 0, -1, 0 };
