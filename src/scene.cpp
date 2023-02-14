@@ -245,6 +245,6 @@ void OurTestScene::UpdateLightCameraBuffer()
 	m_dxdevice_context->Map(m_lightcamera_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
 	LightCameraBuffer* Buffer = (LightCameraBuffer*)resource.pData;
 	Buffer->lightPos = vec4f(1, 0, 0, 0);
-	Buffer->cameraPos = m_camera->MoveTo();
+	Buffer->cameraPos = m_camera->getPosition();
 	m_dxdevice_context->Unmap(m_lightcamera_buffer, 0);
 }

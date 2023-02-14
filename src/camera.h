@@ -17,10 +17,6 @@ class Camera
 {
 public:
 
-	float m_yaw = 0.0f;
-	float m_pitch = 0.0f;
-
-
 	/**
 	 * @brief Creates a camera.
 	 * @param[in] vertical_fov Vertical field of view.
@@ -72,6 +68,11 @@ public:
 	 * @note In a performance sensitive situation this matrix should be precomputed if possible
 	*/
 	linalg::mat4f ProjectionMatrix() const noexcept;
+
+	float m_yaw = 0.0f;
+	float m_pitch = 0.0f;
+
+	linalg::vec4f getPosition();
 
 private:
 	// Aperture attributes
