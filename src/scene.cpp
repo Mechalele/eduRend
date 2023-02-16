@@ -7,10 +7,12 @@
 Scene::Scene(
 	ID3D11Device* dxdevice,
 	ID3D11DeviceContext* dxdevice_context,
+	ID3D11Buffer* material_buffer,
 	int window_width,
 	int window_height) :
 	m_dxdevice(dxdevice),
 	m_dxdevice_context(dxdevice_context),
+	m_material_buffer(material_buffer),
 	m_window_width(window_width),
 	m_window_height(window_height)
 { }
@@ -26,9 +28,10 @@ void Scene::OnWindowResized(
 OurTestScene::OurTestScene(
 	ID3D11Device* dxdevice,
 	ID3D11DeviceContext* dxdevice_context,
+	ID3D11Buffer* material_buffer,
 	int window_width,
 	int window_height) :
-	Scene(dxdevice, dxdevice_context, window_width, window_height)
+	Scene(dxdevice, dxdevice_context, material_buffer, window_width, window_height)
 { 
 	InitTransformationBuffer();
 	InitLightCamerabuffer();
@@ -50,11 +53,12 @@ void OurTestScene::Init()
 	m_camera->MoveTo({ 0, 0, 5 });
 
 	// Create objects
-	m_quad = new QuadModel(m_dxdevice, m_dxdevice_context);
-	m_cube = new Cube(m_dxdevice, m_dxdevice_context);
-	m_cube2 = new Cube(m_dxdevice, m_dxdevice_context);
-	m_cube3 = new Cube(m_dxdevice, m_dxdevice_context);
-	m_sponza = new OBJModel("assets/crytek-sponza/sponza.obj", m_dxdevice, m_dxdevice_context);
+	m_quad = new QuadModel(m_dxdevice, m_dxdevice_context, m_material_buffer);
+	m_cube = new Cube(m_dxdevice, m_dxdevice_context, m_material_buffer);
+	m_cube2 = new Cube(m_dxdevice, m_dxdevice_context, m_material_buffer);
+	m_cube3 = new Cube(m_dxdevice, m_dxdevice_context, m_material_buffer);
+	m_sponza = new OBJModel("assets/crytek-sponza/sponza.obj", m_dxdevice, m_dxdevice_context, m_material_buffer);
+	m_plane = new OBJModel("assets/crytek-sponza/banner.obj", m_dxdevice, m_dxdevice_context, m_material_buffer);
 }
 
 //
@@ -173,6 +177,9 @@ void OurTestScene::Render()
 	UpdateTransformationBuffer(m_cube3_transform, m_view_matrix, m_projection_matrix);
 	m_cube3->Render();*/
 
+	UpdateTransformationBuffer(m_plane_transform, m_view_matrix, m_projection_matrix);
+	m_plane->Render();
+
 	// Load matrices + Sponza's transformation to the device and render it
 	UpdateTransformationBuffer(m_sponza_transform, m_view_matrix, m_projection_matrix);
 	m_sponza->Render();
@@ -182,9 +189,11 @@ void OurTestScene::Release()
 {
 	SAFE_DELETE(m_quad);
 	SAFE_DELETE(m_sponza);
+	SAFE_DELETE(m_plane);
 	SAFE_DELETE(m_camera);
 
 	SAFE_RELEASE(m_transformation_buffer);
+	SAFE_RELEASE(m_material_buffer);
 	// + release other CBuffers
 }
 

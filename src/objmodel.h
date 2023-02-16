@@ -39,8 +39,8 @@ public:
 	 * @param dxdevice Valid ID3D11Device.
 	 * @param dxdevice_context Valid ID3D11DeviceContext.
 	*/
-	OBJModel(const std::string& objfile, ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context);
-
+	OBJModel(const std::string& objfile, ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context, ID3D11Buffer* material_buffer);
+	
 	/**
 	 * @brief Renders the model.
 	*/

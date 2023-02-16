@@ -6,7 +6,7 @@ class Cube : public Model
 
 public:
 
-	Cube(ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context);
+	Cube(ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context, ID3D11Buffer* material_buffer);
 
 	virtual void Render() const;
 

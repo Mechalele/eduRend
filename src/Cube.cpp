@@ -1,6 +1,6 @@
 #include "Cube.h"
 
-Cube::Cube(ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context) : Model(dxdevice, dxdevice_context)
+Cube::Cube(ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context, ID3D11Buffer* material_buffer) : Model(dxdevice, dxdevice_context, material_buffer)
 {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned> indices;

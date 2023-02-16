@@ -28,7 +28,7 @@ public:
 	 * @param[in] window_width Window hight for the scene.
 	 * @param[in] window_height Window width for the scene.
 	*/
-	Scene(ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context, int window_width, int window_height);
+	Scene(ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context, ID3D11Buffer* material_buffer, int window_width, int window_height);
 
 	/**
 	 * @brief Initialize all scene data.
@@ -63,6 +63,7 @@ public:
 protected:
 	ID3D11Device*			m_dxdevice; //!< Graphics device, use for creating resources.
 	ID3D11DeviceContext*	m_dxdevice_context; //!< Graphics context, use for binding resources and draw commands.
+	ID3D11Buffer*			m_material_buffer;
 	int						m_window_width; //!< Current width of the window.
 	int						m_window_height; //!< Current height of the window.
 };
@@ -88,11 +89,13 @@ class OurTestScene : public Scene
 
 	Model* m_quad;
 	Model* m_sponza;
+	Model* m_plane;
 	Model* m_cube;
 	Model* m_cube2;
 	Model* m_cube3;
 
 	mat4f m_sponza_transform;
+	mat4f m_plane_transform;
 	mat4f m_quad_transform;
 	mat4f m_cube_transform;
 	mat4f m_cube2_transform;
@@ -104,7 +107,7 @@ class OurTestScene : public Scene
 	// Misc
 	float m_angle = 0;			// A per-frame updated rotation angle (radians)...
 	float m_angular_velocity = fPI / 2;	// ...and its velocity (radians/sec)
-	float m_camera_velocity = 8.0f;	// Camera movement velocity in units/s
+	float m_camera_velocity = 80.0f;	// Camera movement velocity in units/s
 	float m_fps_cooldown = 0;
 
 	void InitTransformationBuffer();
@@ -123,7 +126,7 @@ public:
 	 * @param window_width Current window width.
 	 * @param window_height Current window height.
 	*/
-	OurTestScene(ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context,	int window_width, int window_height);
+	OurTestScene(ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context, ID3D11Buffer* material_buffer, int window_width, int window_height);
 
 	/**
 	 * @brief Initializes all resources held by the scene.

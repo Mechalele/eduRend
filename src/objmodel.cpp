@@ -3,8 +3,8 @@
 OBJModel::OBJModel(
 	const std::string& objfile,
 	ID3D11Device* dxdevice,
-	ID3D11DeviceContext* dxdevice_context)
-	: Model(dxdevice, dxdevice_context)
+	ID3D11DeviceContext* dxdevice_context, ID3D11Buffer* material_buffer)
+	: Model(dxdevice, dxdevice_context, material_buffer)
 {
 	// Load the OBJ
 	OBJLoader* mesh = new OBJLoader();
@@ -101,6 +101,19 @@ void OBJModel::Render() const
 	{
 		// Fetch material
 		const Material& material = m_materials[indexRange.MaterialIndex];
+
+		D3D11_BUFFER_DESC materialBufferDesc = { 0 };
+		materialBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		materialBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		materialBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+		materialBufferDesc.MiscFlags = 0;
+		materialBufferDesc.ByteWidth = sizeof(TransformationBuffer);
+
+		indexbufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+		indexbufferDesc.CPUAccessFlags = 0;
+		indexbufferDesc.Usage = D3D11_USAGE_DEFAULT;
+		indexbufferDesc.MiscFlags = 0;
+		indexbufferDesc.ByteWidth = (UINT)(indices.size() * sizeof(unsigned));
 
 		// Bind diffuse texture to slot t0 of the PS
 		m_dxdevice_context->PSSetShaderResources(0, 1, &material.DiffuseTexture.TextureView);
