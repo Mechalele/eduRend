@@ -33,6 +33,7 @@ static ID3D11Texture2D*			depthStencil		= nullptr;
 static ID3D11DepthStencilView*	depthStencilView	= nullptr;
 static ID3D11Device*			device				= nullptr;
 static ID3D11DeviceContext*		deviceContext		= nullptr;
+static ID3D11Buffer*			materialBuffer		= nullptr;
 static ID3D11RasterizerState*	rasterState			= nullptr;
 
 static shader_data*				vertexShader		= nullptr;
@@ -124,6 +125,7 @@ int WINAPI wWinMain(_In_ HINSTANCE instance, _In_opt_ HINSTANCE, _In_ LPWSTR, _I
 			scene = std::make_unique<OurTestScene>(
 				device,
 				deviceContext,
+				materialBuffer,
 				initialWinWidth,
 				initialWinHeight);
 

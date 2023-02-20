@@ -107,7 +107,7 @@ class OurTestScene : public Scene
 	// Misc
 	float m_angle = 0;			// A per-frame updated rotation angle (radians)...
 	float m_angular_velocity = fPI / 2;	// ...and its velocity (radians/sec)
-	float m_camera_velocity = 80.0f;	// Camera movement velocity in units/s
+	float m_camera_velocity = 40.0f;	// Camera movement velocity in units/s
 	float m_fps_cooldown = 0;
 
 	void InitTransformationBuffer();
@@ -117,6 +117,10 @@ class OurTestScene : public Scene
 	void InitLightCamerabuffer();
 
 	void UpdateLightCameraBuffer();
+
+	/*void InitMaterialBuffer();
+
+	void UpdateMaterialBuffer(vec4f phongcolor);*/
 
 public:
 	/**

@@ -24,6 +24,7 @@ class OBJModel : public Model
 
 	std::vector<IndexRange> m_index_ranges;
 	std::vector<Material> m_materials;
+	
 
 	void append_materials(const std::vector<Material>& mtl_vec)
 	{
@@ -31,6 +32,8 @@ class OBJModel : public Model
 	}
 
 public:
+	
+	/*Model::m_material_buffer;*/
 
 	/**
 	 * @brief Creates a .obj model.

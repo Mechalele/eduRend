@@ -22,3 +22,10 @@ struct LightCameraBuffer
 	vec4f lightPos;
 	vec4f cameraPos;
 };
+
+struct MaterialColorBuffer
+{
+	vec4f AmbientColour;
+	vec4f DiffuseColour;
+	vec4f SpecularColour;
+};

@@ -16,6 +16,8 @@
 #include "OBJLoader.h"
 #include "Texture.h"
 
+#include "buffers.h"
+
 using namespace linalg;
 
 /**
@@ -41,7 +43,20 @@ public:
 	 * @param dxdevice_context ID3D11DeviceContext to be used in the model.
 	*/
 	Model(ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context, ID3D11Buffer* material_buffer)
-		:	m_dxdevice(dxdevice), m_dxdevice_context(dxdevice_context), m_material_buffer(material_buffer) { }
+		:	m_dxdevice(dxdevice), m_dxdevice_context(dxdevice_context), m_material_buffer(material_buffer) 
+	{ 
+		
+		D3D11_BUFFER_DESC materialBufferDesc = { 0 };
+		materialBufferDesc.ByteWidth = sizeof(material_buffer);
+		materialBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+		materialBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		materialBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		materialBufferDesc.MiscFlags = 0;
+		materialBufferDesc.StructureByteStride = 0;
+
+		m_dxdevice->CreateBuffer(&materialBufferDesc, nullptr, &m_material_buffer); //ska det göras här?
+
+	}
 
 	/**
 	 * @brief Abstract render method: must be implemented by derived classes

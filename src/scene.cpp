@@ -97,11 +97,11 @@ void OurTestScene::Update(
 
 	if (m_camera->m_pitch > PI / 2)
 	{
-		m_camera->m_pitch > PI / 2;
+		m_camera->m_pitch = PI / 2;
 	}
 	else if (m_camera->m_pitch < -PI / 2)
 	{
-		m_camera->m_pitch > -PI / 2;
+		m_camera->m_pitch = -PI / 2;
 	}
 
 	// Now set/update object transformations
@@ -158,6 +158,7 @@ void OurTestScene::Render()
 	// Bind transformation_buffer to slot b0 of the VS
 	m_dxdevice_context->VSSetConstantBuffers(0, 1, &m_transformation_buffer);
 	m_dxdevice_context->PSSetConstantBuffers(0, 1, &m_lightcamera_buffer);
+	m_dxdevice_context->PSSetConstantBuffers(1, 1, &m_material_buffer);
 
 	// Obtain the matrices needed for rendering from the camera
 	m_view_matrix = m_camera->WorldToViewMatrix();
@@ -257,3 +258,26 @@ void OurTestScene::UpdateLightCameraBuffer()
 	Buffer->cameraPos = m_camera->getPosition();
 	m_dxdevice_context->Unmap(m_lightcamera_buffer, 0);
 }
+
+//void OurTestScene::InitMaterialBuffer()
+//{
+//	HRESULT hr;
+//	D3D11_BUFFER_DESC materialbufferdesc = { 0 };
+//	materialbufferdesc.Usage = D3D11_USAGE_DYNAMIC;
+//	materialbufferdesc.ByteWidth = sizeof(TransformationBuffer);
+//	materialbufferdesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+//	materialbufferdesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+//	materialbufferdesc.MiscFlags = 0;
+//	materialbufferdesc.StructureByteStride = 0;
+//	ASSERT(hr = m_dxdevice->CreateBuffer(&materialbufferdesc, nullptr, &m_material_buffer));
+//}
+//
+
+//void OurTestScene::UpdateMaterialBuffer(vec4f phongcolor)
+//{
+//	D3D11_MAPPED_SUBRESOURCE resource;
+//	m_dxdevice_context->Map(m_material_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
+//	MaterialColorBuffer* phong_buffer = (MaterialColorBuffer*)resource.pData;
+//	phong_buffer->phongcolor = phongcolor;
+//	m_dxdevice_context->Unmap(m_material_buffer, 0);
+//}

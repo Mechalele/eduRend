@@ -18,6 +18,11 @@ cbuffer LightCameraBuffer : register(b0)
 	float4 m_camerapos;
 }
 
+cbuffer MaterialBuffer : register(b1)
+{
+	float4 phongcolor;
+}
+
 float4 PS_main(PSIn input) : SV_Target
 {
 	// Debug shading #1: map and return normal as a color, i.e. from [-1,1]->[0,1] per component
