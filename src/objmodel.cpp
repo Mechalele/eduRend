@@ -107,13 +107,8 @@ void OBJModel::Render() const
 		materialBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 		materialBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 		materialBufferDesc.MiscFlags = 0;
-		materialBufferDesc.ByteWidth = sizeof(TransformationBuffer);
+		materialBufferDesc.ByteWidth = sizeof(material);
 
-		indexbufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-		indexbufferDesc.CPUAccessFlags = 0;
-		indexbufferDesc.Usage = D3D11_USAGE_DEFAULT;
-		indexbufferDesc.MiscFlags = 0;
-		indexbufferDesc.ByteWidth = (UINT)(indices.size() * sizeof(unsigned));
 
 		// Bind diffuse texture to slot t0 of the PS
 		m_dxdevice_context->PSSetShaderResources(0, 1, &material.DiffuseTexture.TextureView);
