@@ -96,17 +96,19 @@ void OBJModel::Render() const
 	// Bind index buffer
 	m_dxdevice_context->IASetIndexBuffer(m_index_buffer, DXGI_FORMAT_R32_UINT, 0);
 
-	/*ID3D11Buffer* m_material_buffer = nullptr;*/
+	m_dxdevice_context->PSSetConstantBuffers(1, 1, &m_material_buffer);
 	
 	// Iterate Drawcalls
 	for (auto& indexRange : m_index_ranges)
 	{
 		// Fetch material
 		const Material& material = m_materials[indexRange.MaterialIndex];
+
+		
 		
 		vec4f DiffuseColour = material.DiffuseColour.xyz1();
 		vec4f SpecularColour = material.SpecularColour.xyz1();
-		vec4f AmbientColour = material.AmbientColour.xyz1();
+		vec4f AmbientColour = material.AmbientColour.xyz1(); //är detta fel sätt att göra det på?
 
 		D3D11_MAPPED_SUBRESOURCE resource;
 		m_dxdevice_context->Map(m_material_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
@@ -115,16 +117,6 @@ void OBJModel::Render() const
 		phong_buffer->DiffuseColour = DiffuseColour;
 		phong_buffer->SpecularColour = SpecularColour;
 		m_dxdevice_context->Unmap(m_material_buffer, 0);
-
-		/*D3D11_BUFFER_DESC materialBufferDesc = { 0 };
-		materialBufferDesc.ByteWidth = sizeof(material);
-		materialBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-		materialBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-		materialBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		materialBufferDesc.MiscFlags = 0;
-		materialBufferDesc.StructureByteStride = 0;
-
-		m_dxdevice->CreateBuffer(&materialBufferDesc, nullptr, &m_material_buffer);*/ //ska det göras här?
 		
 		// Bind diffuse texture to slot t0 of the PS
 		m_dxdevice_context->PSSetShaderResources(0, 1, &material.DiffuseTexture.TextureView);
