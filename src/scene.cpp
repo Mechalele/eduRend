@@ -58,7 +58,8 @@ void OurTestScene::Init()
 	m_cube2 = new Cube(m_dxdevice, m_dxdevice_context, m_material_buffer);
 	m_cube3 = new Cube(m_dxdevice, m_dxdevice_context, m_material_buffer);
 	m_sponza = new OBJModel("assets/crytek-sponza/sponza.obj", m_dxdevice, m_dxdevice_context, m_material_buffer);
-	m_plane = new OBJModel("assets/crytek-sponza/banner.obj", m_dxdevice, m_dxdevice_context, m_material_buffer);
+	m_plane = new OBJModel("assets/Trojan/Trojan.obj", m_dxdevice, m_dxdevice_context, m_material_buffer);
+	m_sphere = new OBJModel("assets/sphere/sphere.obj", m_dxdevice, m_dxdevice_context, m_material_buffer);
 }
 
 //
@@ -137,6 +138,14 @@ void OurTestScene::Update(
 		mat4f::rotation(fPI / 2, 0.0f, 1.0f, 0.0f) * // Rotate pi/2 radians (90 degrees) around y
 		mat4f::scaling(0.05f);						 // The scene is quite large so scale it down to 5%
 
+	m_plane_transform = mat4f::translation(0, -5, 0) *		 // Move down 5 units
+		mat4f::rotation(fPI / 2, 0.0f, 1.0f, 0.0f) * // Rotate pi/2 radians (90 degrees) around y
+		mat4f::scaling(1.0f);
+	
+	m_sphere_transform = mat4f::translation(0, 0, -5) *
+		mat4f::rotation(-m_angle, 0.0f, 1.0f, 0.0f) *	// Rotate continuously around the y-axis
+		mat4f::scaling(1.5, 1.5, 1.5);
+
 	// Increment the rotation angle.
 	m_angle += m_angular_velocity * dt;
 
@@ -180,10 +189,13 @@ void OurTestScene::Render()
 
 	UpdateTransformationBuffer(m_plane_transform, m_view_matrix, m_projection_matrix);
 	m_plane->Render();
+	
+	UpdateTransformationBuffer(m_sphere_transform, m_view_matrix, m_projection_matrix);
+	m_sphere->Render();
 
 	// Load matrices + Sponza's transformation to the device and render it
-	UpdateTransformationBuffer(m_sponza_transform, m_view_matrix, m_projection_matrix);
-	m_sponza->Render();
+	/*UpdateTransformationBuffer(m_sponza_transform, m_view_matrix, m_projection_matrix);
+	m_sponza->Render();*/
 }
 
 void OurTestScene::Release()

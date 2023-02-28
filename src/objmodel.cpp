@@ -105,11 +105,10 @@ void OBJModel::Render() const
 		const Material& material = m_materials[indexRange.MaterialIndex];
 
 		
-		
+		vec4f AmbientColour = material.AmbientColour.xyz1();
 		vec4f DiffuseColour = material.DiffuseColour.xyz1();
-		vec4f SpecularColour = material.SpecularColour.xyz1();
-		vec4f AmbientColour = material.AmbientColour.xyz1(); //är detta fel sätt att göra det på?
-
+		vec4f SpecularColour = material.SpecularColour.xyz1(); //är detta fel sätt att göra det på?
+		 
 		D3D11_MAPPED_SUBRESOURCE resource;
 		m_dxdevice_context->Map(m_material_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
 		MaterialColorBuffer* phong_buffer = (MaterialColorBuffer*)resource.pData;

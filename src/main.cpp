@@ -401,6 +401,8 @@ HRESULT Render(float deltaTime)
 	deviceContext->DSSetShader(nullptr, nullptr, 0);
 	deviceContext->GSSetShader(nullptr, nullptr, 0);
 	
+	/*deviceContext->VSSetConstantBuffers(1, 1, &materialBuffer);*/ //vet inte om denna behövs
+
 	// Time for the current scene to render
 	scene->Render();
 
