@@ -41,7 +41,7 @@ PSIn VS_main(VSIn input)
 	
 	// Perform transformations and send to output
 	output.Pos = mul(MVP, float4(input.Pos, 1));
-	output.WorldPos = mul(ModelToWorldMatrix, float4(input.Pos, 0)).xyz;
+	output.WorldPos = mul(ModelToWorldMatrix, float4(input.Pos, 1)).xyz;
 	output.Normal = normalize( mul(ModelToWorldMatrix, float4(input.Normal,0)).xyz );
 	output.TexCoord = input.TexCoord;
 		

@@ -23,9 +23,10 @@ struct LightCameraBuffer
 	vec4f cameraPos;
 };
 
-struct MaterialColorBuffer
+struct alignas(16) MaterialColorBuffer
 {
 	vec4f AmbientColour;
 	vec4f DiffuseColour;
 	vec4f SpecularColour;
+	alignas(16) float Shininess;
 };

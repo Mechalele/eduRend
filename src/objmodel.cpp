@@ -108,18 +108,22 @@ void OBJModel::Render() const
 		vec4f AmbientColour = material.AmbientColour.xyz1();
 		vec4f DiffuseColour = material.DiffuseColour.xyz1();
 		vec4f SpecularColour = material.SpecularColour.xyz1(); //är detta fel sätt att göra det på?
+		float Shininess = material.Shininess;
 		 
+		// Bind diffuse texture to slot t0 of the PS
+		m_dxdevice_context->PSSetShaderResources(0, 1, &material.DiffuseTexture.TextureView);
+		// + bind other textures here, e.g. a normal map, to appropriate slots
+		
 		D3D11_MAPPED_SUBRESOURCE resource;
 		m_dxdevice_context->Map(m_material_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
 		MaterialColorBuffer* phong_buffer = (MaterialColorBuffer*)resource.pData;
 		phong_buffer->AmbientColour = AmbientColour;
 		phong_buffer->DiffuseColour = DiffuseColour;
 		phong_buffer->SpecularColour = SpecularColour;
+		phong_buffer->Shininess = Shininess;
 		m_dxdevice_context->Unmap(m_material_buffer, 0);
 		
-		// Bind diffuse texture to slot t0 of the PS
-		m_dxdevice_context->PSSetShaderResources(0, 1, &material.DiffuseTexture.TextureView);
-		// + bind other textures here, e.g. a normal map, to appropriate slots
+		
 
 		// Make the drawcall
 		m_dxdevice_context->DrawIndexed(indexRange.Size, indexRange.Start, 0);
