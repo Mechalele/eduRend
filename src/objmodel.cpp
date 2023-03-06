@@ -104,10 +104,9 @@ void OBJModel::Render() const
 		// Fetch material
 		const Material& material = m_materials[indexRange.MaterialIndex];
 
-		
 		vec4f AmbientColour = material.AmbientColour.xyz1();
 		vec4f DiffuseColour = material.DiffuseColour.xyz1();
-		vec4f SpecularColour = material.SpecularColour.xyz1(); //är detta fel sätt att göra det på?
+		vec4f SpecularColour = material.SpecularColour.xyz1();
 		float Shininess = material.Shininess;
 		 
 		// Bind diffuse texture to slot t0 of the PS
@@ -123,8 +122,6 @@ void OBJModel::Render() const
 		phong_buffer->Shininess = Shininess;
 		m_dxdevice_context->Unmap(m_material_buffer, 0);
 		
-		
-
 		// Make the drawcall
 		m_dxdevice_context->DrawIndexed(indexRange.Size, indexRange.Start, 0);
 	}

@@ -1,6 +1,6 @@
 
 Texture2D texDiffuse : register(t0);
-//SamplerState texSampler : register(s0);
+SamplerState texSampler : register(s0);
 
 struct PSIn
 {
@@ -38,9 +38,8 @@ float4 PS_main(PSIn input) : SV_Target
 	// Debug shading #2: map and return texture coordinates as a color (blue = 0)
 	//	return float4(input.TexCoord, 0, 1);
 	
-	/*return float4(input.WorldPos, 0);*/
-	return m_lightpos;
-
+	/*return float4(input.WorldPos, 0) * 0.05;*/
+	
 	float3 N = input.Normal;
 	float3 L = normalize(m_lightpos.xyz - input.WorldPos);
 
@@ -51,5 +50,6 @@ float4 PS_main(PSIn input) : SV_Target
 
 	float specValue = pow(max(dot(R, V), 0), Shininess);
 	
-	return float4 (AmbientColour + (DiffuseColour * diffValue) + (SpecularColour * specValue));
+	
+	return float4 (AmbientColour * 0.1 + (DiffuseColour * diffValue) + (SpecularColour * specValue));
 }

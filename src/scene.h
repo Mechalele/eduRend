@@ -120,10 +120,6 @@ class OurTestScene : public Scene
 
 	void UpdateLightCameraBuffer();
 
-	/*void InitMaterialBuffer();
-
-	void UpdateMaterialBuffer(vec4f phongcolor);*/
-
 public:
 	/**
 	 * @brief Constructor

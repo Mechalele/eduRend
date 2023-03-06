@@ -32,8 +32,6 @@ class OBJModel : public Model
 	}
 
 public:
-	
-	/*Model::m_material_buffer;*/
 
 	/**
 	 * @brief Creates a .obj model.

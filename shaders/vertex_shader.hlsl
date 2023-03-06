@@ -21,7 +21,6 @@ struct PSIn
 	float3 WorldPos : POSITION;
 	float3 Normal : NORMAL;
 	float2 TexCoord : TEX;
-	
 };
 
 //-----------------------------------------------------------------------------------------

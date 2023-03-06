@@ -58,7 +58,7 @@ void OurTestScene::Init()
 	m_cube2 = new Cube(m_dxdevice, m_dxdevice_context, m_material_buffer);
 	m_cube3 = new Cube(m_dxdevice, m_dxdevice_context, m_material_buffer);
 	m_sponza = new OBJModel("assets/crytek-sponza/sponza.obj", m_dxdevice, m_dxdevice_context, m_material_buffer);
-	m_plane = new OBJModel("assets/Trojan/Trojan.obj", m_dxdevice, m_dxdevice_context, m_material_buffer);
+	/*m_plane = new OBJModel("assets/Trojan/Trojan.obj", m_dxdevice, m_dxdevice_context, m_material_buffer);*/
 	m_sphere = new OBJModel("assets/sphere/sphere.obj", m_dxdevice, m_dxdevice_context, m_material_buffer);
 }
 
@@ -117,7 +117,7 @@ void OurTestScene::Update(
 		mat4f::scaling(1.5, 1.5, 1.5);				// Scale uniformly to 150%
 
 	// Cube model-to-world transformation
-	m_cube_transform = mat4f::translation(10, -10, 0) *
+	m_cube_transform = mat4f::translation(1, 10, 0) *
 		mat4f::rotation(-m_angle, 0.0f, 1.0f, 0.0f) *	// Rotate continuously around the y-axis
 		mat4f::scaling(1.5, 1.5, 1.5);				// Scale uniformly to 150%
 
@@ -138,7 +138,7 @@ void OurTestScene::Update(
 		mat4f::rotation(fPI / 2, 0.0f, 1.0f, 0.0f) * // Rotate pi/2 radians (90 degrees) around y
 		mat4f::scaling(0.05f);						 // The scene is quite large so scale it down to 5%
 
-	m_plane_transform = mat4f::translation(0, -5, 0) *		 // Move down 5 units
+	m_plane_transform = mat4f::translation(0, 5, 0) *		 // Move down 5 units
 		mat4f::rotation(fPI / 2, 0.0f, 1.0f, 0.0f) * // Rotate pi/2 radians (90 degrees) around y
 		mat4f::scaling(1.0f);
 	
@@ -167,7 +167,6 @@ void OurTestScene::Render()
 	// Bind transformation_buffer to slot b0 of the VS
 	m_dxdevice_context->VSSetConstantBuffers(0, 1, &m_transformation_buffer);
 	m_dxdevice_context->PSSetConstantBuffers(0, 1, &m_lightcamera_buffer);
-	m_dxdevice_context->PSSetConstantBuffers(1, 1, &m_material_buffer);
 
 	// Obtain the matrices needed for rendering from the camera
 	m_view_matrix = m_camera->WorldToViewMatrix();
@@ -178,24 +177,24 @@ void OurTestScene::Render()
 	/*UpdateTransformationBuffer(m_quad_transform, m_view_matrix, m_projection_matrix);
 	m_quad->Render();*/
 
-	/*UpdateTransformationBuffer(m_cube_transform, m_view_matrix, m_projection_matrix);
+	UpdateTransformationBuffer(m_cube_transform, m_view_matrix, m_projection_matrix);
 	m_cube->Render();
 
 	UpdateTransformationBuffer(m_cube2_transform, m_view_matrix, m_projection_matrix);
 	m_cube2->Render();
 	
 	UpdateTransformationBuffer(m_cube3_transform, m_view_matrix, m_projection_matrix);
-	m_cube3->Render();*/
+	m_cube3->Render();
 
-	UpdateTransformationBuffer(m_plane_transform, m_view_matrix, m_projection_matrix);
-	m_plane->Render();
+	/*UpdateTransformationBuffer(m_plane_transform, m_view_matrix, m_projection_matrix);
+	m_plane->Render();*/
 	
 	UpdateTransformationBuffer(m_sphere_transform, m_view_matrix, m_projection_matrix);
 	m_sphere->Render();
 
 	// Load matrices + Sponza's transformation to the device and render it
-	/*UpdateTransformationBuffer(m_sponza_transform, m_view_matrix, m_projection_matrix);
-	m_sponza->Render();*/
+	UpdateTransformationBuffer(m_sponza_transform, m_view_matrix, m_projection_matrix);
+	m_sponza->Render();
 }
 
 void OurTestScene::Release()
@@ -269,4 +268,8 @@ void OurTestScene::UpdateLightCameraBuffer()
 	Buffer->lightPos = vec4f(1, 2, 0, 0);
 	Buffer->cameraPos = m_camera->getPosition();
 	m_dxdevice_context->Unmap(m_lightcamera_buffer, 0);
+	
+	/*static float pos = -2.5f;
+	Buffer->lightPos = vec4f(1, pos, 0, 0);
+	pos += 0.01f;*/ //kan användas för att flytta ljuset
 }
