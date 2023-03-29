@@ -206,24 +206,28 @@ Cube::Cube(ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context, ID3D11
 	dxdevice->CreateBuffer(&indexbufferDesc, &indexData, &m_index_buffer);
 	SETNAME(m_index_buffer, "IndexBuffer");
 
-	std::cout << "Loading textures..." << std::endl;
-	for (auto& material : m_materials)
+	if (true) //kolla hur man implementerar denna
 	{
-		HRESULT hr;
+		std::cout << "Loading textures..." << std::endl;
+		for (auto& material : m_materials)
+		{
+			HRESULT hr;
 
-		// Load Diffuse texture
-		//
-		if (material.DiffuseTextureFilename.size()) {
+			// Load Diffuse texture
+			//
+			if (material.DiffuseTextureFilename.size()) {
 
-			hr = LoadTextureFromFile(dxdevice, "assets\crytek-sponza\textures\sponza_column_c_diff.png", &material.DiffuseTexture);
-			std::cout << "\t" << material.DiffuseTextureFilename
-				<< (SUCCEEDED(hr) ? " - OK" : "- FAILED") << std::endl;
+				hr = LoadTextureFromFile(dxdevice, "assets/crytek-sponza/textures/sponza_column_c_diff.png", &material.DiffuseTexture);
+				std::cout << "\t" << material.DiffuseTextureFilename
+					<< (SUCCEEDED(hr) ? " - OK" : "- FAILED") << std::endl;
+			}
+
+			// + other texture types here - see Material class
+			// ...
 		}
-
-		// + other texture types here - see Material class
-		// ...
+		std::cout << "Done." << std::endl;
 	}
-	std::cout << "Done." << std::endl;
+	
 
 	m_number_of_indices = (unsigned int)indices.size();
 }
