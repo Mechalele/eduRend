@@ -206,24 +206,24 @@ Cube::Cube(ID3D11Device* dxdevice, ID3D11DeviceContext* dxdevice_context, ID3D11
 	dxdevice->CreateBuffer(&indexbufferDesc, &indexData, &m_index_buffer);
 	SETNAME(m_index_buffer, "IndexBuffer");
 
-	std::cout << "Loading textures..." << std::endl;
-	for (auto& material : m_materials)
-	{
-		HRESULT hr;
+	//std::cout << "Loading textures..." << std::endl;
+	//for (auto& material : m_materials)
+	//{
+	//	HRESULT hr;
 
-		// Load Diffuse texture
-		//
-		if (material.DiffuseTextureFilename.size()) {
+	//	// Load Diffuse texture
+	//	//
+	//	if (material.DiffuseTextureFilename.size()) {
 
-			hr = LoadTextureFromFile(dxdevice, "assets\crytek-sponza\textures\sponza_column_c_diff.png", &material.DiffuseTexture);
-			std::cout << "\t" << material.DiffuseTextureFilename
-				<< (SUCCEEDED(hr) ? " - OK" : "- FAILED") << std::endl;
-		}
+	//		hr = LoadTextureFromFile(dxdevice, "assets/textures/concrete_3.png", &material.DiffuseTexture);
+	//		std::cout << "\t" << material.DiffuseTextureFilename
+	//			<< (SUCCEEDED(hr) ? " - OK" : "- FAILED") << std::endl;
+	//	}
 
-		// + other texture types here - see Material class
-		// ...
-	}
-	std::cout << "Done." << std::endl;
+	//	// + other texture types here - see Material class
+	//	// ...
+	//}
+	//std::cout << "Done." << std::endl;
 
 	m_number_of_indices = (unsigned int)indices.size();
 }
@@ -238,25 +238,27 @@ void Cube::Render() const
 	// Bind our index buffer
 	m_dxdevice_context->IASetIndexBuffer(m_index_buffer, DXGI_FORMAT_R32_UINT, 0);
 
-	m_dxdevice_context->PSSetConstantBuffers(1, 1, &m_material_buffer);
+	//ladda in textur istället
+	
+	//m_dxdevice_context->PSSetConstantBuffers(1, 1, &m_material_buffer);
 
-	const Material& material = m_materials[m_number_of_indices]; //ladda in textur istället
+	//const Material& material = m_materials[m_number_of_indices]; 
 
-	vec4f AmbientColour = material.AmbientColour.xyz1();
-	vec4f DiffuseColour = material.DiffuseColour.xyz1();
-	vec4f SpecularColour = material.SpecularColour.xyz1();
-	float Shininess = material.Shininess;
+	//vec4f AmbientColour = material.AmbientColour.xyz1();
+	//vec4f DiffuseColour = material.DiffuseColour.xyz1();
+	//vec4f SpecularColour = material.SpecularColour.xyz1();
+	//float Shininess = material.Shininess;
 
-	m_dxdevice_context->PSSetShaderResources(0, 1, &material.DiffuseTexture.TextureView);
+	//m_dxdevice_context->PSSetShaderResources(0, 1, &material.DiffuseTexture.TextureView);
 
-	D3D11_MAPPED_SUBRESOURCE resource;
-	m_dxdevice_context->Map(m_material_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
-	MaterialColorBuffer* phong_buffer = (MaterialColorBuffer*)resource.pData;
-	phong_buffer->AmbientColour = AmbientColour;
-	phong_buffer->DiffuseColour = DiffuseColour;
-	phong_buffer->SpecularColour = SpecularColour;
-	phong_buffer->Shininess = Shininess;
-	m_dxdevice_context->Unmap(m_material_buffer, 0);
+	//D3D11_MAPPED_SUBRESOURCE resource;
+	//m_dxdevice_context->Map(m_material_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
+	//MaterialColorBuffer* phong_buffer = (MaterialColorBuffer*)resource.pData;
+	//phong_buffer->AmbientColour = AmbientColour;
+	//phong_buffer->DiffuseColour = DiffuseColour;
+	//phong_buffer->SpecularColour = SpecularColour;
+	//phong_buffer->Shininess = Shininess;
+	//m_dxdevice_context->Unmap(m_material_buffer, 0);
 
 	// Make the drawcall
 	m_dxdevice_context->DrawIndexed(m_number_of_indices, 0, 0);

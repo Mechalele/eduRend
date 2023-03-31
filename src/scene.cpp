@@ -169,14 +169,15 @@ void OurTestScene::Render()
 	m_dxdevice_context->VSSetConstantBuffers(0, 1, &m_transformation_buffer);
 	m_dxdevice_context->PSSetConstantBuffers(0, 1, &m_lightcamera_buffer);
 
+
 	// Obtain the matrices needed for rendering from the camera
 	m_view_matrix = m_camera->WorldToViewMatrix();
 	m_projection_matrix = m_camera->ProjectionMatrix();
 	UpdateLightCameraBuffer();
 
 	// Load matrices + the Quad's transformation to the device and render it
-	/*UpdateTransformationBuffer(m_quad_transform, m_view_matrix, m_projection_matrix);
-	m_quad->Render();*/
+	UpdateTransformationBuffer(m_quad_transform, m_view_matrix, m_projection_matrix);
+	m_quad->Render();
 
 	UpdateTransformationBuffer(m_cube_transform, m_view_matrix, m_projection_matrix);
 	m_cube->Render();

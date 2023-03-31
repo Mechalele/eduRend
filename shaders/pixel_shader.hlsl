@@ -50,6 +50,7 @@ float4 PS_main(PSIn input) : SV_Target
 
 	float specValue = pow(max(dot(R, V), 0), Shininess);
 	
-	
-	return float4 (AmbientColour * 0.1 + (DiffuseColour * diffValue) + (SpecularColour * specValue));
+	float4 color = texDiffuse.Sample(texSampler, input.TexCoord);
+
+	return float4 (AmbientColour * color + (DiffuseColour * diffValue * color) + (SpecularColour * specValue));
 }
