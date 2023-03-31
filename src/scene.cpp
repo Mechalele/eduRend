@@ -52,7 +52,6 @@ void OurTestScene::Init()
 	// Move camera to (0,0,5)
 	m_camera->MoveTo({ 0, 0, 5 });
 
-
 	// Create objects
 	m_quad = new QuadModel(m_dxdevice, m_dxdevice_context, m_material_buffer);
 	m_cube = new Cube(m_dxdevice, m_dxdevice_context, m_material_buffer);
